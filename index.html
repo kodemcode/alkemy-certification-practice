@@ -1,0 +1,2126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cuestionario Mixto Front-End + Java</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f4f6f9;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      color: #2d3748;
+    }
+    .header-banner {
+      background: linear-gradient(135deg, #1e1e38 0%, #3b2863 100%);
+      color: #ffffff;
+      padding: 2rem 1rem;
+      border-bottom: 4px solid #7952b3;
+    }
+    .card-quiz {
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      background: #ffffff;
+    }
+    .code-block {
+      background-color: #1e1e2e;
+      color: #a6accd;
+      padding: 1rem;
+      border-radius: 8px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.92rem;
+      overflow-x: auto;
+      border-left: 4px solid #7952b3;
+      white-space: pre-wrap;
+    }
+    .btn-option {
+      text-align: left;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 0.85rem 1.25rem;
+      margin-bottom: 0.75rem;
+      background-color: #ffffff;
+      color: #2d3748;
+      transition: all 0.2s ease-in-out;
+      width: 100%;
+      font-weight: 500;
+    }
+    .btn-option:hover {
+      border-color: #7952b3;
+      background-color: #f3f0ff;
+      color: #4c2882;
+    }
+    .btn-option.selected {
+      border-color: #7952b3;
+      background-color: #e9ecef;
+      font-weight: 600;
+    }
+    .badge-unit {
+      background-color: #e2e8f0;
+      color: #4a5568;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.35em 0.65em;
+      border-radius: 6px;
+    }
+    .badge-type {
+      background-color: #d6bcfa;
+      color: #441c78;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.35em 0.65em;
+      border-radius: 6px;
+    }
+    .progress-bar-custom {
+      height: 8px;
+      border-radius: 4px;
+      background-color: #7952b3;
+    }
+    .feedback-correct {
+      border-left: 5px solid #22c55e;
+      background-color: #f0fdf4;
+    }
+    .feedback-incorrect {
+      border-left: 5px solid #ef4444;
+      background-color: #fef2f2;
+    }
+    .option-card {
+      border: 2px solid #e9ecef;
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+      background-color: #fff;
+      display: flex;
+      align-items: center;
+    }
+    .option-card:hover {
+      border-color: #7952b3;
+      background-color: #f8f0fc;
+    }
+    .option-card.selected {
+      border-color: #7952b3;
+      background-color: #f1e6ff;
+      font-weight: 600;
+    }
+    .option-card input[type="radio"],
+    .option-card input[type="checkbox"] {
+      margin-right: 12px;
+      accent-color: #7952b3;
+      transform: scale(1.2);
+    }
+  </style>
+</head>
+<body>
+  <header class="header-banner text-center mb-4">
+    <div class="container">
+      <span class="badge bg-warning text-dark mb-2 px-3 py-2 fw-bold">Cuestionario Mixto</span>
+      <div class="text-uppercase small fw-bold mb-2" style="letter-spacing: 0.12em; color: #d6bcfa;">KodemCode</div>
+      <h1 class="h2 fw-bold">Simulador de Examen: Front-End + Java</h1>
+      <p class="lead text-light mb-0 fs-6">Preguntas mezcladas aleatoriamente de ambos módulos para repasar sin seguir un orden fijo.</p>
+      <div class="d-flex flex-wrap justify-content-center gap-2 mt-3">
+        <a href="https://www.youtube.com/@kodemcode" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-light">YouTube</a>
+        <a href="https://www.tiktok.com/@kodemcode?is_from_webapp=1&amp;sender_device=pc" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-light">TikTok</a>
+        <a href="https://www.superprof.cl/clases-java-python-javascript-aprende-programacion-desde-cero-con-clases-practicas-desarrolla-logica.html" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-light">Superprof · Clases de programación</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container mb-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-9">
+        <div id="screen-start" class="card card-quiz p-4 p-md-5">
+          <h2 class="h3 fw-bold mb-3 text-dark">Entrenamiento Integral</h2>
+          <p class="text-muted">Este simulacro combina preguntas de Front-End y Java, con un orden aleatorio para que practiques sin seguir una secuencia predecible.</p>
+
+          <div class="row g-3 my-3">
+            <div class="col-md-4">
+              <div class="p-3 border rounded text-center bg-light">
+                <div class="fs-4 fw-bold text-primary" id="info-total-q">0</div>
+                <div class="small text-muted">Preguntas Totales</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="p-3 border rounded text-center bg-light">
+                <div class="fs-4 fw-bold text-success">60%</div>
+                <div class="small text-muted">Aprobación Mínima</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="p-3 border rounded text-center bg-light">
+                <div class="fs-4 fw-bold" style="color: #7952b3;">100</div>
+                <div class="small text-muted">Preguntas Mezcladas</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="alert alert-info border-0 shadow-sm my-3">
+            <strong>ℹ️ Instrucciones del Examen:</strong>
+            <ul class="mb-0 mt-2 small">
+              <li>Se mezclan preguntas de Front-End y Java para simular un examen combinado.</li>
+              <li>La aprobación mínima es <strong>60%</strong>.</li>
+              <li>Se registrará el tiempo transcurrido.</li>
+              <li>Los resultados se guardan automáticamente en tu navegador con <code>localStorage</code>.</li>
+            </ul>
+          </div>
+
+          <div id="history-container" class="mt-4 d-none">
+            <h5 class="fw-bold text-secondary mb-3">Historial de Intentos (localStorage)</h5>
+            <div class="table-responsive">
+              <table class="table table-sm table-striped align-middle small">
+                <thead>
+                  <tr>
+                    <th>Fecha y Hora</th>
+                    <th>Correctas</th>
+                    <th>Puntaje (%)</th>
+                    <th>Estado</th>
+                  </tr>
+                </thead>
+                <tbody id="history-table-body"></tbody>
+              </table>
+            </div>
+            <button class="btn btn-outline-danger btn-sm mt-1" onclick="clearHistory()">Limpiar Historial</button>
+          </div>
+
+          <div class="d-grid gap-2 mt-4">
+            <button class="btn btn-primary btn-lg fw-bold py-3" style="background-color: #7952b3; border: none;" onclick="startQuiz()">
+              Comenzar Simulacro Mezclado
+            </button>
+          </div>
+        </div>
+
+        <div id="screen-quiz" class="card card-quiz p-4 p-md-5 d-none">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <span class="small text-muted fw-bold" id="quiz-progress-text">Pregunta 1 de 100</span>
+            <span class="small text-muted" id="quiz-timer">Tiempo: 00:00</span>
+          </div>
+          <div class="progress mb-4" style="height: 8px;">
+            <div id="quiz-progress-bar" class="progress-bar progress-bar-custom" role="progressbar" style="width: 2%;"></div>
+          </div>
+
+          <div class="mb-3">
+            <span class="badge-unit me-2" id="q-unit">Unidad</span>
+            <span class="badge-type" id="q-type">Tipo</span>
+          </div>
+
+          <h3 class="h5 fw-bold mb-3" id="q-text">Texto de la pregunta...</h3>
+
+          <div id="q-code-container" class="mb-3 d-none">
+            <pre class="code-block" id="q-code"><code></code></pre>
+          </div>
+
+          <div id="q-options" class="my-3"></div>
+
+          <div class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top">
+            <button id="btn-prev" class="btn btn-outline-secondary px-4" onclick="prevQuestion()" disabled>Anterior</button>
+            <button id="btn-next" class="btn btn-primary px-4" style="background-color: #7952b3; border: none;" onclick="nextQuestion()">Siguiente</button>
+          </div>
+        </div>
+
+        <div id="screen-results" class="card card-quiz p-4 p-md-5 d-none">
+          <div class="text-center mb-4">
+            <div id="result-badge-status" class="mb-2"></div>
+            <h2 class="h3 fw-bold" id="result-title">Informe de Resultados</h2>
+            <p class="text-muted" id="result-subtitle">Evaluación de desempeño en el cuestionario mixto</p>
+          </div>
+
+          <div class="row g-3 text-center mb-4">
+            <div class="col-md-3 col-6">
+              <div class="p-3 border rounded bg-light">
+                <div class="fs-3 fw-bold text-dark" id="res-score-percent">0%</div>
+                <div class="small text-muted">Porcentaje Global</div>
+              </div>
+            </div>
+            <div class="col-md-3 col-6">
+              <div class="p-3 border rounded bg-light">
+                <div class="fs-3 fw-bold text-success" id="res-correct-count">0</div>
+                <div class="small text-muted">Correctas (<span id="res-correct-percent">0%</span>)</div>
+              </div>
+            </div>
+            <div class="col-md-3 col-6">
+              <div class="p-3 border rounded bg-light">
+                <div class="fs-3 fw-bold text-danger" id="res-incorrect-count">0</div>
+                <div class="small text-muted">Incorrectas (<span id="res-incorrect-percent">0%</span>)</div>
+              </div>
+            </div>
+            <div class="col-md-3 col-6">
+              <div class="p-3 border rounded bg-light">
+                <div class="fs-3 fw-bold text-primary" id="res-time-elapsed">00:00</div>
+                <div class="small text-muted">Tiempo Empleado</div>
+              </div>
+            </div>
+          </div>
+
+          <hr class="my-4">
+          <h4 class="h5 fw-bold mb-3">Desglose Detallado:</h4>
+          <div id="results-breakdown" class="my-3"></div>
+
+          <div class="d-flex justify-content-center gap-3 mt-4">
+            <button class="btn btn-primary px-4 py-2" style="background-color: #7952b3; border: none;" onclick="restartQuiz()">Realizar Nuevo Intento</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="text-center py-3 text-muted small border-top bg-white">
+    <div class="fw-bold text-dark mb-2">KodemCode</div>
+    <div class="mb-2">Cuestionario Mixto · Front-End + Java · Simulación de práctica técnica</div>
+    <div class="d-flex flex-wrap justify-content-center gap-3">
+      <a href="https://www.youtube.com/@kodemcode" target="_blank" rel="noopener noreferrer" class="text-decoration-none">YouTube</a>
+      <a href="https://www.tiktok.com/@kodemcode?is_from_webapp=1&amp;sender_device=pc" target="_blank" rel="noopener noreferrer" class="text-decoration-none">TikTok</a>
+      <a href="https://www.superprof.cl/clases-java-python-javascript-aprende-programacion-desde-cero-con-clases-practicas-desarrolla-logica.html" target="_blank" rel="noopener noreferrer" class="text-decoration-none">Superprof</a>
+    </div>
+    <div class="mt-3">Proyecto personal e independiente con fines educativos y de preparación.</div>
+    <div>No es material oficial ni ha sido creado, patrocinado, aprobado o validado por Alkemy o Talento Digital.</div>
+    <div>No constituye certificación, acreditación, representación ni relación laboral con dichas entidades.</div>
+    <div>Alkemy y Talento Digital son marcas de sus respectivos titulares.</div>
+  </footer>
+
+  <script>
+    const rawQuizData = [
+  {
+    "unit": "L5: POO y Encapsulamiento",
+    "type": "Selección Múltiple",
+    "text": "¿Para qué se utiliza la palabra clave 'this' dentro de un constructor o método en Java?",
+    "code": null,
+    "isMultiple": false,
+    "options": [
+      "Para llamar a la superclase padre",
+      "Para diferenciar los atributos de la instancia de los parámetros recibidos cuando tienen el mismo nombre",
+      "Para destruir el objeto de la memoria",
+      "Para declarar variables estáticas globales"
+    ],
+    "correct": [
+      1
+    ],
+    "explanation": "La palabra `this` hace referencia al objeto actual y diferencia los atributos del objeto de los parámetros con igual nombre."
+  },
+  {
+    "id": 16,
+    "unit": "Unidad 2: El Lenguaje HTML5",
+    "type": "Análisis de Código (Formularios)",
+    "question": "¿Qué etiquetas se utilizan conjuntamente para agrupar formalmente un conjunto de campos en un formulario y asignarle un título o leyenda al grupo?",
+    "code": "<form>\n  <...>\n    <...>Datos Personales</...>\n    <input type=\"text\">\n  </...>\n</form>",
+    "options": [
+      "<div class=\"group\"> y <p>",
+      "<fieldset> y <legend>",
+      "<section> y <caption>",
+      "<border> y <title>"
+    ],
+    "correct": 1,
+    "explanation": "La etiqueta `<fieldset>` crea un grupo visual y semántico de elementos dentro de un formulario, y `<legend>` define el título descriptivo para ese grupo."
+  },
+  {
+    "id": 31,
+    "unit": "Unidad 4: Framework Bootstrap 5",
+    "type": "Análisis de Código (Imágenes)",
+    "question": "¿Qué clase utilitaria de Bootstrap se aplica a una imagen <img> para hacerla fluida y responsiva (`max-width: 100%; height: auto;`)?",
+    "code": "<img src=\"foto.jpg\" class=\"???\" alt=\"Foto\">",
+    "options": [
+      "img-responsive",
+      "img-fluid",
+      "img-auto",
+      "img-flex"
+    ],
+    "correct": 1,
+    "explanation": "En Bootstrap 5, `.img-fluid` aplica `max-width: 100%` y `height: auto` para garantizar que la imagen se adapte dinámicamente al contenedor padre sin desbordar."
+  },
+  {
+    "unit": "L3: Sintaxis Java",
+    "type": "Selección Múltiple",
+    "text": "¿Qué clase de utilidad se utiliza para capturar datos ingresados por el usuario a través de la consola estándar?",
+    "code": null,
+    "isMultiple": false,
+    "options": [
+      "System.in.Reader",
+      "java.util.Scanner",
+      "java.io.ConsoleInput",
+      "InputParser"
+    ],
+    "correct": [
+      1
+    ],
+    "explanation": "La clase `java.util.Scanner` se usa para leer datos desde la consola con System.in."
+  },
+  {
+    "id": 10,
+    "unit": "Unidad 2: El Lenguaje HTML5",
+    "type": "Selección Múltiple",
+    "question": "¿Cuál es la función semántica específica de la etiqueta <main> en un documento HTML5?",
+    "code": null,
+    "options": [
+      "Contener el menú de navegación principal del sitio web.",
+      "Delimitar el contenido principal y exclusivo del documento, el cual no debe replicarse en otras páginas del mismo sitio.",
+      "Agrupar los enlaces del pie de página y la información de derechos de autor.",
+      "Crear una barra lateral con avisos publicitarios y enlaces recomendados."
+    ],
+    "correct": 1,
+    "explanation": "La etiqueta `<main>` contiene el contenido central y único del documento. Solo debe haber una etiqueta `<main>` visible por documento HTML y no debe incluir contenido repetitivo como headers o footers."
+  },
+  {
+    "id": 46,
+    "unit": "Unidad 6: Librería jQuery",
+    "type": "Análisis de Código (jQuery Animación)",
+    "question": "¿Qué método de jQuery hace desaparecer progresivamente un elemento de la pantalla mediante una animación con transición de opacidad?",
+    "code": "$('#alerta').???(1000);",
+    "options": [
+      "slideUp()",
+      "fadeOut()",
+      "hideImmediate()",
+      "displayNone()"
+    ],
+    "correct": 1,
+    "explanation": "`.fadeOut()` disminuye progresivamente la opacidad del elemento seleccionado hasta ocultarlo. `.slideUp()` lo oculta deslizándolo hacia arriba."
+  },
+  {
+    "id": 32,
+    "unit": "Unidad 4: Framework Bootstrap 5",
+    "type": "Selección Múltiple",
+    "question": "¿A qué rango de tamaño de pantalla corresponde el breakpoint 'md' (Medium) en la grilla responsiva de Bootstrap?",
+    "code": null,
+    "options": [
+      "≥576px",
+      "≥768px",
+      "≥992px",
+      "≥1200px"
+    ],
+    "correct": 1,
+    "explanation": "El breakpoint `md` en Bootstrap aplica a partir de un ancho mínimo de pantalla de 768 píxeles (típicamente tablets y dispositivos medianos)."
+  },
+  {
+    "id": 40,
+    "unit": "Unidad 5: JavaScript DOM & Eventos",
+    "type": "Verdadero / Falso",
+    "question": "El método 'event.preventDefault()' se invoca dentro de un evento 'submit' para impedir la acción por defecto del navegador de recargar o refrescar la página.",
+    "code": null,
+    "options": [
+      "Verdadero",
+      "Falso"
+    ],
+    "correct": 0,
+    "explanation": "Verdadero. `event.preventDefault()` detiene la acción estándar asociada al evento (como el envío de formulario que refresca la pantalla o seguir un enlace `<a>`)."
+  },
+  {
+    "unit": "L2: Algoritmos",
+    "type": "Análisis de Salida de Código",
+    "text": "¿Cuál es la salida de la siguiente expresión lógica combinada?",
+    "code": "boolean p = true;\nboolean q = false;\nSystem.out.println((p || q) && !q);",
+    "isMultiple": false,
+    "options": [
+      "false",
+      "true",
+      "Error de compilación",
+      "null"
+    ],
+    "correct": [
+      1
+    ],
+    "explanation": "(true || false) es true. !false es true. true && true resulta en true."
+  },
+  {
+    "unit": "L2: Algoritmos",
+    "type": "Verdadero / Falso",
+    "text": "Una variable local declarada dentro de un bucle 'for' o función está disponible en todo el programa principal.",
+    "code": null,
+    "isMultiple": false,
+    "options": [
+      "Verdadero",
+      "Falso"
+    ],
+    "correct": [
+      1
+    ],
+    "explanation": "Falso. El alcance de una variable local se limita strictly al bloque de código en el que fue declarada."
+  },
+  {
+    "unit": "L3: Sintaxis Java",
+    "type": "Selección Múltiple",
+    "text": "¿Cómo se declara e inicializa un arreglo unidimensional (vector) de 5 enteros en Java?",
+    "code": null,
+    "isMultiple": false,
+    "options": [
+      "int vector = new int;",
+      "int[] vector = new int;",
+      "Array<int> vector = new Array(5);",
+      "int vector = new int[];"
+    ],
+    "correct": [
+      1
+    ],
+    "explanation": "La sintaxis correcta para declarar e instanciar un arreglo unidimensional es `int[] vector = new int;`."
+  },
+  {
+    "unit": "L2: Algoritmos",
+    "type": "Selección Múltiple (Varias respuestas)",
+    "text": "¿Cuáles de las siguientes son características fundamentales de todo algoritmo? (Selecciona las respuestas correctas)",
+    "code": null,
+    "isMultiple": true,
+    "options": [
+      "Finito (debe tener un número concreto de pasos)",
+      "Definido (ante los mismos datos de entrada produce siempre la misma salida)",
+      "Preciso y Ordenado",
+      "Infinito (debe ejecutarse continuamente sin detenerse)"
+    ],
+    "correct": [
+      0,
+      1,
+      2
+    ],
+    "explanation": "Un algoritmo es secuencial, preciso, ordenado, finito, concreto y definido."
+  },
+  {
+    "unit": "L5: POO y Encapsulamiento",
+    "type": "Selección Múltiple",
+    "text": "¿Cuál es el modificador de acceso más restrictivo en Java, que limita la visibilidad exclusivamente a los miembros de la misma clase?",
+    "code": null,
+    "isMultiple": false,
+    "options": [
+      "public",
+      "protected",
+      "private",
+      "package-private"
+    ],
+    "correct": [
+      2
+    ],
+    "explanation": "El modificador `private` especifica que los elementos solo pueden ser accedidos dentro de la misma clase donde se declaran."
+  },
+  {
+    "id": 17,
+    "unit": "Unidad 2: El Lenguaje HTML5",
+    "type": "Verdadero / Falso",
+    "question": "En HTML5, la etiqueta de imagen <img> requiere obligatoriamente incluir una etiqueta de cierre </img> para ser interpretada correctamente por el navegador.",
+    "code": null,
+    "options": [
+      "Verdadero",
+      "Falso"
+    ],
+    "correct": 1,
+    "explanation": "Falso. En HTML5 las etiquetas vacías/abiertas como `<img>`, `<br>`, `<hr>` o `<meta>` no requieren cierre ni incluir la barra oblicua `/` final."
+  },
+  {
+    "id": 19,
+    "unit": "Unidad 3: CSS & Modelo de Cajas",
+    "type": "Análisis de Código (Cálculo CSS)",
+    "question": "Dado el siguiente código CSS con el modelo de cajas estándar ('box-sizing: content-box'), ¿cuál es el ANCHO TOTAL ocupado por la caja en pantalla (sin incluir márgenes)?",
+    "code": ".caja {\n  width: 200px;\n  padding: 15px;\n  border: 5px solid red;\n  margin: 20px;\n}",
+    "options": [
+      "200px",
+      "220px",
+      "240px",
+      "280px"
+    ],
+    "correct": 2,
+    "explanation": "Ancho Total = width (200px) + padding izq/der (15px + 15px = 30px) + border izq/der (5px + 5px = 10px) = 240px. El margen (margin) es externo."
+  },
+  {
+    "unit": "L6: Clases Abstractas e Interfaces",
+    "type": "Selección Múltiple (Varias respuestas)",
+    "text": "¿Cuáles de las siguientes afirmaciones sobre Interfaces en Java son correctas? (Selecciona todas las opciones correctas)",
+    "code": null,
+    "isMultiple": true,
+    "options": [
+      "Se declaran con la palabra reservada interface e implementan con implements",
+      "Todos sus métodos son implícitamente públicos y abstractos",
+      "Una clase puede implementar múltiples interfaces simultáneamente",
+      "Permiten crear directamente instancias con new MiInterfaz()"
+    ],
+    "correct": [
+      0,
+      1,
+      2
+    ],
+    "explanation": "Las interfaces se declaran con interface, sus métodos son públicos y abstractos, y una clase puede implementar múltiples interfaces. No se pueden instanciar directamente con new."
+  },
+  {
+    "id": 44,
+    "unit": "Unidad 5: JavaScript ES6",
+    "type": "Verdadero / Falso",
+    "question": "En JavaScript ES6, las variables declaradas con 'var' dentro de un bloque 'if { ... }' tienen alcance de bloque local y se destruyen al salir del bloque.",
+    "code": null,
+    "options": [
+      "Verdadero",
+      "Falso"
+    ],
+    "correct": 1,
+    "explanation": "Falso. `var` no respeta el alcance de bloque (block scope); solo tiene alcance de función o global. Las palabras clave que sí poseen alcance de bloque estricto son `let` y `const`."
+  },
+  {
+    "id": 28,
+    "unit": "Unidad 4: Framework Bootstrap 5",
+    "type": "Análisis de Código (Grilla)",
+    "question": "Un elemento en Bootstrap 5 tiene la clase 'col-12 col-md-6 col-lg-4'. ¿Cuántas columnas de las 12 disponibles ocupará en un monitor de escritorio con pantalla mediana (MD ≥768px)?",
+    "code": "<div class=\"col-12 col-md-6 col-lg-4\">Tarjeta</div>",
+    "options": [
+      "12 columnas (100% de la fila)",
+      "6 columnas (50% de la fila)",
+      "4 columnas (33.3% de la fila)",
+      "Se oculta automáticamente"
+    ],
+    "correct": 1,
+    "explanation": "Al alcanzar el breakpoint MD (≥768px), se activa la regla `col-md-6`, haciendo que el elemento ocupe 6 de las 12 columnas (la mitad del ancho). En LG (≥992px) pasaría a 4 columnas."
+  },
+  {
+    "unit": "L6: Diseño de Software",
+    "type": "Selección Múltiple",
+    "text": "En el diseño de software orientado a objetos, ¿cuál es la combinación ideal para lograr alta calidad de código?",
+    "code": null,
+    "isMultiple": false,
+    "options": [
+      "Baja cohesión y alto acoplamiento",
+      "Alta cohesión y bajo acoplamiento",
+      "Baja cohesión y bajo acoplamiento",
+      "Sin cohesión ni acoplamiento"
+    ],
+    "correct": [
+      1
+    ],
+    "explanation": "Un buen diseño busca Alta Cohesión (clases enfocadas en un único propósito) y Bajo Acoplamiento (mínima dependencia rígida entre clases)."
+  },
+  {
+    "id": 45,
+    "unit": "Unidad 6: Librería jQuery",
+    "type": "Análisis de Código (jQuery)",
+    "question": "¿Cómo se selecciona en jQuery un botón que tiene la clase 'btn-cancelar' para asignarle un evento de clic que muestre una alerta?",
+    "code": null,
+    "options": [
+      "$('btn-cancelar').click(function() { alert('Cancelado'); });",
+      "$('.btn-cancelar').click(function() { alert('Cancelado'); });",
+      "$('#btn-cancelar').onclick(function() { alert('Cancelado'); });",
+      "jQuery('btn-cancelar').event('click', function() { alert('Cancelado'); });"
+    ],
+    "correct": 1,
+    "explanation": "En jQuery, para seleccionar por clase CSS se utiliza el prefijo punto `$('.btn-cancelar')` idéntico a CSS, seguido de la función de evento `.click(function() { ... })`."
+  },
+  {
+    "id": 33,
+    "unit": "Unidad 4: Framework Bootstrap 5",
+    "type": "Análisis de Código (Botones)",
+    "question": "¿Qué combinación de clases genera un botón rojo de advertencia/peligro pero con estilo de contorno transparente (outline) en Bootstrap 5?",
+    "code": "<button type=\"button\" class=\"???\">Eliminar</button>",
+    "options": [
+      "btn btn-danger",
+      "btn btn-outline-danger",
+      "btn btn-border-red",
+      "btn btn-transparent-danger"
+    ],
+    "correct": 1,
+    "explanation": "Las clases `.btn .btn-outline-danger` crean un botón transparente con borde y texto en rojo de peligro, cuyo fondo se rellena solo al pasar el cursor (hover)."
+  },
+  {
+    "unit": "L2: Algoritmos",
+    "type": "Verdadero / Falso",
+    "text": "A diferencia de las Funciones, los Procedimientos son subprogramas que ejecutan una tarea pero NO retornan ningún valor.",
+    "code": null,
+    "isMultiple": false,
+    "options": [
+      "Verdadero",
+      "Falso"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "Verdadero. Una función calcula y devuelve un valor de retorno; un procedimiento realiza una tarea específica sin devolver valor."
+  },
+  {
+    "unit": "L1: Entorno Java",
+    "type": "Selección Múltiple",
+    "text": "¿Qué comando de terminal se utiliza para verificar que el JDK está instalado correctamente y consultar su versión?",
+    "code": null,
+    "isMultiple": false,
+    "options": [
+      "javac --build",
+      "java -version",
+      "jvm --status",
+      "java -compile"
+    ],
+    "correct": [
+      1
+    ],
+    "explanation": "El comando 'java -version' o 'java --version' muestra la versión instalada de Java y el entorno de ejecución."
+  },
+  {
+    "unit": "L3: Sintaxis Java",
+    "type": "Selección Múltiple",
+    "text": "¿Cuál es el resultado de evaluar Math.sqrt(64) + Math.pow(2, 3)?",
+    "code": null,
+    "isMultiple": false,
+    "options": [
+      "14.0",
+      "16.0",
+      "12.0",
+      "64.0"
+    ],
+    "correct": [
+      1
+    ],
+    "explanation": "Math.sqrt(64) es 8.0. Math.pow(2, 3) es 8.0. 8.0 + 8.0 = 16.0."
+  },
+  {
+    "unit": "L4: Desarrollo de Consola",
+    "type": "Selección Múltiple (Varias respuestas)",
+    "text": "¿Cuáles de las siguientes corresponden a convenciones estándar de nomenclatura en Java? (Selecciona todas las opciones correctas)",
+    "code": null,
+    "isMultiple": true,
+    "options": [
+      "Nombres de clases en CamelCase singular (ej: MiClase)",
+      "Nombres de métodos y variables en camelCase (ej: miMetodo)",
+      "Nombres de constantes en MAYUSCULAS_CON_GUION_BAJO (ej: MAX_VALOR)",
+      "Nombres de clases siempre en plural"
+    ],
+    "correct": [
+      0,
+      1,
+      2
+    ],
+    "explanation": "Las clases usan UpperCamelCase en singular y NUNCA van en plural. Métodos y variables usan lowerCamelCase, y constantes MAYUSCULAS_CON_GUION_BAJO."
+  },
+  {
+    "unit": "L3: Sintaxis Java",
+    "type": "Selección Múltiple",
+    "text": "¿Cuál es la sentencia de salto incondicional que detiene la iteración actual de un bucle y pasa de inmediato a la siguiente iteración?",
+    "code": null,
+    "isMultiple": false,
+    "options": [
+      "break",
+      "continue",
+      "return",
+      "exit"
+    ],
+    "correct": [
+      1
+    ],
+    "explanation": "La sentencia `continue` detiene la iteración actual y transfiere el control a la cabecera del bucle para continuar con la siguiente iteración."
+  },
+  {
+    "unit": "L5: POO y UML",
+    "type": "Selección Múltiple",
+    "text": "En un diagrama de clases UML, ¿qué símbolos representan las visibilidades public, private y protected respectivamente?",
+    "code": null,
+    "isMultiple": false,
+    "options": [
+      "+ para public, - para private, # para protected",
+      "* para public, / para private, + para protected",
+      "P para public, Pr para private, Prot para protected",
+      "No se utilizan símbolos"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "En UML: '+' es public, '-' es private y '#' es protected."
+  },
+  {
+    "unit": "L4: Depuración en Eclipse",
+    "type": "Selección Múltiple",
+    "text": "Al depurar código en Eclipse en modo Debug, ¿qué tecla de acceso rápido se utiliza para avanzar paso a paso línea a línea SIN ingresar dentro de las funciones llamadas?",
+    "code": null,
+    "isMultiple": false,
+    "options": [
+      "F5 (Step Into)",
+      "F6 (Step Over)",
+      "F8 (Resume)",
+      "F11"
+    ],
+    "correct": [
+      1
+    ],
+    "explanation": "F6 (Step Over) avanza línea a línea sin adentrarse en métodos. F5 entra al método y F8 resume la ejecución hasta el siguiente breakpoint."
+  },
+  {
+    "unit": "L5: POO y Encapsulamiento",
+    "type": "Verdadero / Falso",
+    "text": "Los métodos Accesadores (get) sirven para modificar el estado de un objeto y devuelven void, mientras que los Mutadores (set) se usan para consultar el estado.",
+    "code": null,
+    "isMultiple": false,
+    "options": [
+      "Verdadero",
+      "Falso"
+    ],
+    "correct": [
+      1
+    ],
+    "explanation": "Falso. Es al revés: los métodos GET (accesadores) consultan el estado y devuelven el dato, mientras los SET (mutadores) modifican el estado y devuelven void."
+  },
+  {
+    "id": 6,
+    "unit": "Unidad 1: Inspector de Elementos & DevTools",
+    "type": "Análisis de Código (DevTools)",
+    "question": "Al inspeccionar un sitio web con Chrome DevTools, ¿en qué pestaña puedes auditar el método de petición (GET/POST), la URL solicitada, el código de estado (200, 301, 404) y las cabeceras HTTP de respuesta?",
+    "code": null,
+    "options": [
+      "Pestaña Elements / Elementos",
+      "Pestaña Console / Consola",
+      "Pestaña Network / Red",
+      "Pestaña Application / Aplicación"
+    ],
+    "correct": 2,
+    "explanation": "La pestaña Network (Red) de DevTools muestra la lista de peticiones HTTP/HTTPS, permitiendo examinar detalladamente el método, el estado, el tamaño y las cabeceras (Headers) de cada recurso."
+  },
+  {
+    "id": 20,
+    "unit": "Unidad 3: CSS Especificidad",
+    "type": "Selección Múltiple",
+    "question": "¿Cuál de los siguientes selectores CSS tiene la mayor especificidad o peso en la cascada de estilos?",
+    "code": null,
+    "options": [
+      "Selector de etiqueta (`p`)",
+      "Selector de clase (`.destacado`)",
+      "Selector de ID (`#miElemento`)",
+      "Selector universal (`*`)"
+    ],
+    "correct": 2,
+    "explanation": "El selector de ID (`#id`) tiene un peso superior a las clases (`.class`), atributos y etiquetas de tipo. El orden de peso ascendente es: tipo < clase < ID < estilo en línea."
+  },
+  {
+    "unit": "L4: Documentación JavaDoc",
+    "type": "Análisis de Salida de Código",
+    "text": "¿Con qué caracteres debe comenzar un bloque de comentarios de documentación para que sea reconocido por el generador JavaDoc?",
+    "code": "/**\n * Descripcion de la clase o metodo\n * @param id Identificador\n */",
+    "isMultiple": false,
+    "options": [
+      "//",
+      "/*",
+      "/**",
+      "<!--"
+    ],
+    "correct": [
+      2
+    ],
+    "explanation": "Los comentarios JavaDoc inician con `/**` y finalizan con `*/`."
+  },
+  {
+    "id": 7,
+    "unit": "Unidad 1: Conceptos Web & W3C",
+    "type": "Selección Múltiple",
+    "question": "¿Cuál de las siguientes siglas del W3C define las Pautas de Accesibilidad para el Contenido Web, diseñadas para garantizar que personas con discapacidad puedan navegar en la web?",
+    "code": null,
+    "options": [
+      "SVG (Scalable Vector Graphics)",
+      "WCAG (Web Content Accessibility Guidelines)",
+      "HTTP (Hypertext Transfer Protocol)",
+      "XML (eXtensible Markup Language)"
+    ],
+    "correct": 1,
+    "explanation": "WCAG (Web Content Accessibility Guidelines) son las pautas internacionales desarrolladas por el W3C para hacer que el contenido web sea accesible e incluyente para todas las personas."
+  },
+  {
+    "unit": "L1: Entorno Java",
+    "type": "Verdadero / Falso",
+    "text": "El bytecode generado tras compilar un programa Java es dependiente del sistema operativo donde se compiló.",
+    "code": null,
+    "isMultiple": false,
+    "options": [
+      "Verdadero",
+      "Falso"
+    ],
+    "correct": [
+      1
+    ],
+    "explanation": "Falso. El bytecode es un código intermedio independiente de la plataforma, diseñado para ser ejecutado por cualquier JVM en cualquier sistema operativo (WORA)."
+  },
+  {
+    "unit": "L4: Depuración en Eclipse",
+    "type": "Verdadero / Falso",
+    "text": "Un Breakpoint es un punto marcado en el margen del código que le indica al depurador donde detener la ejecución para inspeccionar el valor de las variables.",
+    "code": null,
+    "isMultiple": false,
+    "options": [
+      "Verdadero",
+      "Falso"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "Verdadero. Los breakpoints detienen temporalmente la ejecución para evaluar estados de variables."
+  },
+  {
+    "id": 50,
+    "unit": "Unidad 6: Librería jQuery",
+    "type": "Selección Múltiple",
+    "question": "¿Qué método de jQuery se utiliza para realizar animaciones personalizadas sobre propiedades numéricas de CSS como el desplazamiento suave de scroll ('scrollTop')?",
+    "code": "$('html, body').???({ scrollTop: $('#seccion').offset().top }, 2000);",
+    "options": [
+      "animate()",
+      "scroll()",
+      "move()",
+      "transition()"
+    ],
+    "correct": 0,
+    "explanation": "El método `.animate()` de jQuery ejecuta animaciones personalizadas sobre propiedades CSS numéricas, permitiendo efectos como el desplazamiento suave (smooth scroll) entre secciones."
+  },
+  {
+    "id": 14,
+    "unit": "Unidad 2: El Lenguaje HTML5",
+    "type": "Análisis de Código (Tablas)",
+    "question": "En la estructura de una tabla HTML (<table>), ¿qué etiqueta se utiliza para definir celdas de encabezado cuya tipografía se muestra en negrita y centrada por defecto?",
+    "code": "<table>\n  <tr>\n    <--->Nombre</--->\n    <--->Edad</--->\n  </tr>\n</table>",
+    "options": [
+      "<td>",
+      "<th>",
+      "<tr-head>",
+      "<thead-cell>"
+    ],
+    "correct": 1,
+    "explanation": "La etiqueta `<th>` (table header) define celdas de encabezado en una tabla. Para celdas de datos comunes se utiliza la etiqueta `<td>` (table data)."
+  },
+  {
+    "id": 22,
+    "unit": "Unidad 3: CSS Responsivo",
+    "type": "Verdadero / Falso",
+    "question": "El concepto Mobile First consiste en diseñar la interfaz comenzando con los estilos para pantallas grandes de escritorio y luego ocultar elementos con Media Queries en móviles.",
+    "code": null,
+    "options": [
+      "Verdadero",
+      "Falso"
+    ],
+    "correct": 1,
+    "explanation": "Falso. Mobile First es la filosofía de diseñar primero la experiencia optimizada para dispositivos móviles (pantallas pequeñas) y luego añadir progresivamente estilos mediante Media Queries (`min-width`) para pantallas más grandes."
+  },
+  {
+    "id": 43,
+    "unit": "Unidad 5: JavaScript DOM & Eventos",
+    "type": "Análisis de Código (DOM)",
+    "question": "¿Qué método del objeto document permite seleccionar TODOS los elementos que coincidan con un selector CSS devolviendo una NodeList/Colección que se puede recorrer con .forEach()?",
+    "code": "const parrafos = document.???('div.noticia p');",
+    "options": [
+      "querySelector",
+      "querySelectorAll",
+      "getElementsByClassName",
+      "getElementById"
+    ],
+    "correct": 1,
+    "explanation": "`querySelectorAll()` devuelve una colección completa (`NodeList`) con todos los elementos que coinciden con el selector CSS proporcionado."
+  },
+  {
+    "unit": "L1: Entorno Java",
+    "type": "Análisis de Salida de Código",
+    "text": "Analiza el siguiente código básico y determina la salida exacta en la consola de Eclipse:",
+    "code": "public class Main {\n    public static void main(String[] args) {\n        // System.out.println(\"Hola 1\");\n        System.out.println(\"Hola 2\");\n    }\n}",
+    "isMultiple": false,
+    "options": [
+      "Hola 1\nHola 2",
+      "Hola 1",
+      "Hola 2",
+      "Error de compilación"
+    ],
+    "correct": [
+      2
+    ],
+    "explanation": "Las líneas precedidas por // son comentarios e ignoradas por el compilador, por lo que solo se ejecuta 'Hola 2'."
+  },
+  {
+    "unit": "L6: Principios SOLID",
+    "type": "Selección Múltiple",
+    "text": "¿Qué establece el Principio de Responsabilidad Única (SRP) de SOLID?",
+    "code": null,
+    "isMultiple": false,
+    "options": [
+      "Cada clase debe tener una única responsabilidad bien definida y un único motivo para cambiar",
+      "Las clases deben estar cerradas a la extensión y abiertas a la modificación",
+      "Todas las variables deben ser estáticas",
+      "Un método debe contener al menos 100 líneas de código"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "SRP (Single Responsibility Principle) indica que cada clase debe tener una sola responsabilidad y motivo para modificar."
+  },
+  {
+    "unit": "L3: Sintaxis Java",
+    "type": "Selección Múltiple (Varias respuestas)",
+    "text": "¿Cuáles de los siguientes tipos son tipos de datos primitivos en Java? (Selecciona todas las respuestas correctas)",
+    "code": null,
+    "isMultiple": true,
+    "options": [
+      "int y double",
+      "boolean y char",
+      "String y Integer",
+      "float y byte"
+    ],
+    "correct": [
+      0,
+      1,
+      3
+    ],
+    "explanation": "int, double, boolean, char, float y byte son primitivos. String e Integer son clases/objetos."
+  },
+  {
+    "id": 24,
+    "unit": "Unidad 3: CSS Modelo de Cajas",
+    "type": "Selección Múltiple",
+    "question": "¿Qué regla CSS permite centrar horizontalmente de forma automática un elemento de bloque con un ancho (`width`) definido dentro de su contenedor?",
+    "code": null,
+    "options": [
+      "margin: auto;",
+      "padding: center;",
+      "align: center;",
+      "float: center;"
+    ],
+    "correct": 0,
+    "explanation": "`margin: auto` (o `margin: 0 auto;`) calcula equitativamente los márgenes izquierdo y derecho, centrando horizontalmente el elemento dentro de su contenedor."
+  },
+  {
+    "unit": "L2: Algoritmos",
+    "type": "Análisis de Salida de Código",
+    "text": "De acuerdo con el funcionamiento de los operadores DIV (división entera) y MOD (módulo/resto), ¿cuál es el resultado de las expresiones 19 div 6 y 19 mod 6?",
+    "code": "int divResult = 19 / 6;\nint modResult = 19 % 6;",
+    "isMultiple": false,
+    "options": [
+      "divResult = 3, modResult = 1",
+      "divResult = 3.16, modResult = 1",
+      "divResult = 3, modResult = 0",
+      "divResult = 2, modResult = 7"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "19 / 6 en división entera obtiene el cociente 3 (18). El residuo o módulo 19 % 6 es 1."
+  },
+  {
+    "id": 25,
+    "unit": "Unidad 3: CSS Cascada & Prioridades",
+    "type": "Verdadero / Falso",
+    "question": "Los estilos aplicados directamente mediante el atributo en línea 'style=\"...\"' en un elemento HTML tienen mayor prioridad en la cascada que los definidos en un archivo CSS externo enlazado.",
+    "code": null,
+    "options": [
+      "Verdadero",
+      "Falso"
+    ],
+    "correct": 0,
+    "explanation": "Verdadero. Los estilos en línea tienen un peso de especificidad más alto que los selectores de clase, ID o etiqueta provenientes de hojas de estilo externas o embebidas."
+  },
+  {
+    "unit": "L7: Pruebas Unitarias",
+    "type": "Verdadero / Falso",
+    "text": "La anotación @BeforeEach se ejecuta repetidamente una vez antes de CADA método etiquetado con @Test en la clase de prueba.",
+    "code": null,
+    "isMultiple": false,
+    "options": [
+      "Verdadero",
+      "Falso"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "Verdadero. @BeforeEach se ejecuta antes de cada prueba individual para preparar el fixture."
+  },
+  {
+    "id": 9,
+    "unit": "Unidad 2: El Lenguaje HTML5",
+    "type": "Análisis de Código (Rutas)",
+    "question": "Si tu archivo HTML está guardado en '/tienda/productos/producto.html' y la imagen que deseas enlazar está en '/img/logo.png', ¿cuál es la ruta relativa correcta?",
+    "code": "<img src=\"???\" alt=\"Logo\">",
+    "options": [
+      "img/logo.png",
+      "../img/logo.png",
+      "../../img/logo.png",
+      "./tienda/img/logo.png"
+    ],
+    "correct": 2,
+    "explanation": "Al encontrarse en '/tienda/productos/' (dos subcarpetas dentro de la raíz), debes subir dos niveles con '../../' para llegar al directorio raíz e ingresar a la carpeta '/img/'."
+  },
+  {
+    "unit": "L6: Principios SOLID",
+    "type": "Selección Múltiple",
+    "text": "El principio Abierto/Cerrado (OCP) de SOLID indica que:",
+    "code": null,
+    "isMultiple": false,
+    "options": [
+      "Las clases deben ser públicas y sus atributos globales",
+      "Las entidades de software deben estar abiertas para la extensión pero cerradas para la modificación",
+      "Se deben cerrar todas las interfaces para que nadie las implemente",
+      "Las subclases no pueden añadir nuevos métodos"
+    ],
+    "correct": [
+      1
+    ],
+    "explanation": "OCP (Open/Closed Principle) establece que el código debe permitir extender funcionalidades sin modificar el código fuente existente."
+  },
+  {
+    "id": 26,
+    "unit": "Unidad 3: CSS Flexbox",
+    "type": "Análisis de Código (Flexbox)",
+    "question": "¿Qué valor de 'justify-content' en Flexbox distribuye los elementos de modo que el primero quede pegado al inicio del contenedor, el último al final, y el espacio restante se reparta uniformemente entre ellos?",
+    "code": ".menu {\n  display: flex;\n  justify-content: ???;\n}",
+    "options": [
+      "space-around",
+      "space-evenly",
+      "space-between",
+      "center"
+    ],
+    "correct": 2,
+    "explanation": "`justify-content: space-between` ubica los ítems extremos contra las orillas del contenedor y distribuye equitativamente la separación entre los elementos intermedios."
+  },
+  {
+    "unit": "L4: Documentación JavaDoc",
+    "type": "Selección Múltiple (Varias respuestas)",
+    "text": "¿Cuáles etiquetas de JavaDoc se utilizan para documentar parámetros de método, valor de retorno y excepciones potenciales? (Selecciona las correctas)",
+    "code": null,
+    "isMultiple": true,
+    "options": [
+      "@param para describir los parámetros recibidos",
+      "@return para detallar el valor devuelto",
+      "@throws para documentar excepciones potenciales",
+      "@exception_out para mostrar capturas"
+    ],
+    "correct": [
+      0,
+      1,
+      2
+    ],
+    "explanation": "Las etiquetas estándar son @param, @return, @throws, @author, @version y @since."
+  },
+  {
+    "unit": "L4: Desarrollo de Consola",
+    "type": "Selección Múltiple",
+    "text": "¿Qué comando de terminal se utiliza para ejecutar un archivo empaquetado JAR desde la línea de comandos?",
+    "code": null,
+    "isMultiple": false,
+    "options": [
+      "run -jar MiApp.jar",
+      "java -jar MiApp.jar",
+      "javac -exec MiApp.jar",
+      "java -execute MiApp.jar"
+    ],
+    "correct": [
+      1
+    ],
+    "explanation": "El comando estándar para ejecutar aplicaciones JAR es `java -jar NombreArchivo.jar`."
+  },
+  {
+    "unit": "ABP SmartTask",
+    "type": "Verdadero / Falso",
+    "text": "En el proyecto integrador SmartTask del Módulo 4, se aplica encapsulamiento en la clase Tarea y se desacopla la lógica mediante la clase GestorTareas y la interfaz Accionable.",
+    "code": null,
+    "isMultiple": false,
+    "options": [
+      "Verdadero",
+      "Falso"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "Verdadero. El proyecto ABP SmartTask requiere la clase Tarea encapsulada, el controlador GestorTareas y la interfaz Accionable con clases derivadas."
+  },
+  {
+    "id": 34,
+    "unit": "Unidad 4: Framework Bootstrap 5",
+    "type": "Verdadero / Falso",
+    "question": "En una fila `.row` de Bootstrap, si la suma de las columnas asignadas supera el total de 12, las columnas sobrantes pasarán automáticamente a organizarse en una nueva línea.",
+    "code": null,
+    "options": [
+      "Verdadero",
+      "Falso"
+    ],
+    "correct": 0,
+    "explanation": "Verdadero. Cada bloque que supere el límite acumulado de 12 columnas dentro de una misma `.row` hace un salto de línea automático."
+  },
+  {
+    "unit": "L5: POO y Encapsulamiento",
+    "type": "Verdadero / Falso",
+    "text": "El operador 'new' en Java se encarga de instanciar un objeto, reservar espacio de memoria para sus atributos y devolver una referencia al mismo.",
+    "code": null,
+    "isMultiple": false,
+    "options": [
+      "Verdadero",
+      "Falso"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "Verdadero. El operador `new` realiza la instanciación física en memoria y retorna la referencia guardada en la variable."
+  },
+  {
+    "unit": "L6: Principios SOLID",
+    "type": "Selección Múltiple",
+    "text": "El Principio de Segregación de Interfaces (ISP) propone:",
+    "code": null,
+    "isMultiple": false,
+    "options": [
+      "Unificar todas las interfaces del sistema en una sola interfaz gigante",
+      "Evitar obligar a las clases a implementar métodos de una interfaz que no necesitan utilizar",
+      "Eliminar el uso de interfaces en proyectos Java",
+      "Hacer que todas las interfaces sean privadas"
+    ],
+    "correct": [
+      1
+    ],
+    "explanation": "ISP (Interface Segregation Principle) establece que las interfaces deben ser pequeñas y específicas para no forzar a los clientes a implementar métodos innecesarios."
+  },
+  {
+    "id": 18,
+    "unit": "Unidad 2: El Lenguaje HTML5",
+    "type": "Análisis de Código",
+    "question": "¿Qué elemento HTML se utiliza para incrustar contenido interactivo de sitios externos, como mapas de Google Maps o videos de YouTube, dentro de una página web?",
+    "code": "<??? src=\"https://www.youtube.com/embed/xyz\" width=\"560\" height=\"315\"></???>",
+    "options": [
+      "<embed-video>",
+      "<iframe>",
+      "<object-web>",
+      "<media-frame>"
+    ],
+    "correct": 1,
+    "explanation": "El elemento `<iframe>` (Inline Frame) permite insertar y cargar un documento HTML externo de forma independiente dentro de la página actual."
+  },
+  {
+    "id": 36,
+    "unit": "Unidad 4: Framework Bootstrap 5",
+    "type": "Selección Múltiple",
+    "question": "Para emitir un mensaje de notificación de color verde que confirme que una operación se realizó con éxito en Bootstrap, ¿qué clase de alerta se debe utilizar?",
+    "code": null,
+    "options": [
+      "alert alert-info",
+      "alert alert-warning",
+      "alert alert-success",
+      "alert alert-primary"
+    ],
+    "correct": 2,
+    "explanation": "`.alert .alert-success` genera una caja de mensaje estilizada en tono verde indicando una acción realizada exitosamente."
+  },
+  {
+    "id": 48,
+    "unit": "Unidad 6: Librería jQuery",
+    "type": "Verdadero / Falso",
+    "question": "En jQuery, la instrucción '$(\"#menu\")' selecciona todos los elementos HTML que contienen la clase 'menu'.",
+    "code": null,
+    "options": [
+      "Verdadero",
+      "Falso"
+    ],
+    "correct": 1,
+    "explanation": "Falso. El símbolo `#` representa la selección por ID (`<div id=\"menu\">`). Para seleccionar por clase CSS se utiliza el punto `$(\".menu\")`."
+  },
+  {
+    "unit": "L7: Mockito y TDD",
+    "type": "Selección Múltiple",
+    "text": "¿Cuál es el orden secuencial correcto de las etapas del ciclo de Desarrollo Dirigido por Pruebas (TDD)?",
+    "code": null,
+    "isMultiple": false,
+    "options": [
+      "Green (Código mínimo) -> Red (Prueba que falla) -> Refactor",
+      "Red (Crear prueba que falla) -> Green (Código mínimo para pasar) -> Refactor (Optimizar código)",
+      "Refactor -> Red -> Green",
+      "Escribir código -> Probar en consola -> Refactor"
+    ],
+    "correct": [
+      1
+    ],
+    "explanation": "El ciclo de TDD es Red (escribir test que falla) -> Green (escribir el código mínimo para pasar el test) -> Refactor (optimizar mantenibilidad)."
+  },
+  {
+    "id": 38,
+    "unit": "Unidad 5: JavaScript ES6",
+    "type": "Análisis de Código (Operadores)",
+    "question": "¿Cuál es el resultado por consola al ejecutar las siguientes comparaciones en JavaScript?",
+    "code": "console.log(5 == \"5\");\nconsole.log(5 === \"5\");",
+    "options": [
+      "true y true",
+      "false y false",
+      "true y false",
+      "false y true"
+    ],
+    "correct": 2,
+    "explanation": "`5 == \"5\"` retorna `true` porque realiza conversión de tipo implícita (igualdad abstracta). `5 === \"5\"` retorna `false` porque compara valor y tipo de dato (número vs string)."
+  },
+  {
+    "id": 37,
+    "unit": "Unidad 5: JavaScript ES6",
+    "type": "Selección Múltiple",
+    "question": "¿Cuál es la diferencia de reasignación entre declarar una variable con 'let' y declararla con 'const' en JavaScript ES6?",
+    "code": null,
+    "options": [
+      "let no permite cambiar su valor; const sí permite reasignar nuevos valores libremente.",
+      "let permite reasignar nuevos valores a la variable; const declara una constante cuyo valor no se puede reasignar.",
+      "Ambas palabras clave son idénticas en comportamiento.",
+      "let solo existe dentro de funciones; const solo existe fuera del código."
+    ],
+    "correct": 1,
+    "explanation": "`let` otorga alcance de bloque y permite reasignar valores durante la ejecución. `const` crea una referencia constante de solo lectura que no puede ser reasignada."
+  },
+  {
+    "id": 30,
+    "unit": "Unidad 4: Framework Bootstrap 5",
+    "type": "Verdadero / Falso",
+    "question": "El sistema de maquetación y grilla (Grid System) de Bootstrap está estructurado internamente en un total de 12 columnas flexibles por fila.",
+    "code": null,
+    "options": [
+      "Verdadero",
+      "Falso"
+    ],
+    "correct": 0,
+    "explanation": "Verdadero. La grilla responsiva de Bootstrap divide horizontalmente las filas (`.row`) en 12 columnas iguales para organizar cualquier layout."
+  },
+  {
+    "unit": "L2: Algoritmos",
+    "type": "Selección Múltiple",
+    "text": "¿Qué estructura repetitiva garantiza que su bloque de instrucciones se ejecutará AL MENOS UNA VEZ antes de evaluar la condición?",
+    "code": null,
+    "isMultiple": false,
+    "options": [
+      "Mientras (while)",
+      "Repetir (do-while)",
+      "Para (for)",
+      "Según (switch)"
+    ],
+    "correct": [
+      1
+    ],
+    "explanation": "El bucle 'do-while' (Repetir) ejecuta primero el bloque de sentencias y luego evalúa la condición al final."
+  },
+  {
+    "id": 42,
+    "unit": "Unidad 5: JavaScript ES6",
+    "type": "Selección Múltiple",
+    "question": "¿Cuál es la sintaxis simplificada correcta de una función flecha (arrow function) que recibe dos parámetros 'a' y 'b' y retorna su multiplicación en una sola línea sin bloques explícitos?",
+    "code": null,
+    "options": [
+      "function multiplicar(a, b) => a * b;",
+      "const multiplicar = (a, b) => a * b;",
+      "const multiplicar = (a, b) -> { return a * b };",
+      "let multiplicar = arrow(a, b) { a * b };"
+    ],
+    "correct": 1,
+    "explanation": "En ES6, `const multiplicar = (a, b) => a * b;` utiliza la sintaxis flecha con retorno implícito de una sola línea."
+  },
+  {
+    "unit": "L3: Sintaxis Java",
+    "type": "Análisis de Salida de Código",
+    "text": "¿Qué imprime en pantalla el siguiente código sobre la clase String?",
+    "code": "String s = \"Java Trainee\";\nSystem.out.println(s.substring(0, 4).toUpperCase());",
+    "isMultiple": false,
+    "options": [
+      "JAVA",
+      "TRAINEE",
+      "Java",
+      "java"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "s.substring(0, 4) extrae los caracteres desde el índice 0 hasta antes del 4 ('Java'). .toUpperCase() lo convierte en 'JAVA'."
+  },
+  {
+    "id": 29,
+    "unit": "Unidad 4: Framework Bootstrap 5",
+    "type": "Selección Múltiple",
+    "question": "¿Qué tipo de contenedor de Bootstrap se caracteriza por ocupar siempre el 100% del ancho del viewport sin importar el tamaño de la pantalla?",
+    "code": null,
+    "options": [
+      ".container",
+      ".container-fluid",
+      ".container-xl",
+      ".container-grid"
+    ],
+    "correct": 1,
+    "explanation": "`.container-fluid` crea un contenedor de ancho completo (100% width) en todos los breakpoints y tamaños de dispositivo."
+  },
+  {
+    "id": 35,
+    "unit": "Unidad 4: Framework Bootstrap 5",
+    "type": "Análisis de Código (Navbar)",
+    "question": "¿Qué clase de Bootstrap debe llevar el contenedor interno del menú para permitir que los enlaces de navegación se colapsen automáticamente dentro de un botón hamburguesa en dispositivos móviles?",
+    "code": "<div class=\"???\" id=\"navbarNav\">\n  <ul class=\"navbar-nav\">...</ul>\n</div>",
+    "options": [
+      "collapse navbar-collapse",
+      "nav-responsive-menu",
+      "navbar-hidden",
+      "dropdown-collapse"
+    ],
+    "correct": 0,
+    "explanation": "La combinación `.collapse .navbar-collapse` envuelve la lista de navegación para que la librería pueda ocultarla y desplegarla responsivamente mediante el botón `.navbar-toggler`."
+  },
+  {
+    "unit": "L5: POO y Relaciones",
+    "type": "Selección Múltiple",
+    "text": "¿Cuál es la diferencia fundamental entre la relación de Agregación y la relación de Composición entre clases?",
+    "code": null,
+    "isMultiple": false,
+    "options": [
+      "En Agregación ('usa un') las entidades pueden sobrevivir independientemente; en Composición ('tiene un') la vida del objeto componente depende del contenedor",
+      "Composición usa extends y Agregación usa implements",
+      "Agregación solo se aplica a interfaces",
+      "No existe ninguna diferencia técnica entre ambas"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "En Agregación ('usa un') los objetos sobreviven individualmente. En Composición ('tiene un') la existencia del objeto contenido depende totalmente del contenedor."
+  },
+  {
+    "unit": "L3: Sintaxis Java",
+    "type": "Verdadero / Falso",
+    "text": "Los objetos de la clase String son mutables, lo que significa que sus caracteres se pueden modificar directamente en la misma posición de memoria.",
+    "code": null,
+    "isMultiple": false,
+    "options": [
+      "Verdadero",
+      "Falso"
+    ],
+    "correct": [
+      1
+    ],
+    "explanation": "Falso. Los objetos String son inmutables en Java; cualquier modificación devuelve una nueva instancia de String."
+  },
+  {
+    "id": 49,
+    "unit": "Unidad 6: Librería jQuery",
+    "type": "Análisis de Código (jQuery CSS)",
+    "question": "Para modificar directamente el estilo CSS de un elemento seleccionado en jQuery cambiando su color de fondo a amarillo, ¿cuál es la sintaxis correcta?",
+    "code": null,
+    "options": [
+      "$('#caja').style('background-color', 'yellow');",
+      "$('#caja').css('background-color', 'yellow');",
+      "$('#caja').setCss('background-color: yellow');",
+      "$('#caja').attr('css', 'yellow');"
+    ],
+    "correct": 1,
+    "explanation": "El método `.css(\"propiedad\", \"valor\")` de jQuery permite modificar directamente estilos CSS sobre los elementos seleccionados."
+  },
+  {
+    "unit": "L4: Desarrollo de Consola",
+    "type": "Selección Múltiple",
+    "text": "Al exportar una aplicación de consola ejecutable desde Eclipse, ¿qué opción de menú se selecciona?",
+    "code": null,
+    "isMultiple": false,
+    "options": [
+      "Export > Runnable JAR file",
+      "Export > Class File",
+      "Build > Compiler Output",
+      "Save As > Java Executable"
+    ],
+    "correct": [
+      0
+    ],
+    "explanation": "Para exportar una aplicación Java ejecutable desde Eclipse se utiliza la opción 'Export > Runnable JAR file'."
+  },
+  {
+    "id": 3,
+    "unit": "Unidad 1: Conceptos Web & W3C",
+    "type": "Análisis de Código",
+    "question": "¿Qué etiqueta meta dentro de la sección <head> especifica la codificación de caracteres estándar utilizada en la web para representar el alfabeto en HTML5?",
+    "code": "<head>\n  <meta ???=\"utf-8\">\n  <title>Mi Sitio Web</title>\n</head>",
+    "options": [
+      "<meta name=\"utf-8\">",
+      "<meta charset=\"utf-8\">",
+      "<meta http-equiv=\"utf-8\">",
+      "<meta content=\"utf-8\">"
+    ],
+    "correct": 1,
+    "explanation": "La etiqueta `<meta charset=\"utf-8\">` especifica el juego de caracteres UTF-8, que es el estándar más utilizado en Internet para representar correctamente letras, acentos y símbolos."
+  },
+  {
+    "id": 47,
+    "unit": "Unidad 6: Librería jQuery",
+    "type": "Selección Múltiple",
+    "question": "¿Qué método de jQuery permite alternar la visibilidad de un elemento, deslizándolo hacia arriba si está visible o hacia abajo si está oculto?",
+    "code": null,
+    "options": [
+      "slideToggle()",
+      "fadeToggle()",
+      "toggleDisplay()",
+      "animateSlide()"
+    ],
+    "correct": 0,
+    "explanation": "`.slideToggle()` evalúa el estado de visibilidad del elemento y ejecuta `.slideUp()` o `.slideDown()` de forma automática."
+  },
+  {
+    "id": 13,
+    "unit": "Unidad 2: El Lenguaje HTML5",
+    "type": "Selección Múltiple",
+    "question": "¿Cuál es la diferencia de comportamiento estructural y de ocupación en pantalla entre los contenedores <div> y <span>?",
+    "code": null,
+    "options": [
+      "<div> es un elemento de línea que no empuja contenido; <span> es un elemento de bloque que ocupa el 100% de la fila.",
+      "<div> es un elemento de bloque que ocupa el 100% del ancho de su contenedor; <span> es un elemento de línea que solo ocupa el ancho de su contenido.",
+      "Ambos elementos son exactamente iguales y se usan indistintamente para párrafos.",
+      "<div> solo acepta etiquetas <a> en su interior y <span> solo acepta imágenes."
+    ],
+    "correct": 1,
+    "explanation": "`<div>` es una etiqueta de bloque genérica que ocupa todo el ancho disponible empujando el siguiente contenido hacia abajo. `<span>` es una etiqueta de línea genérica para envolver texto u otros elementos de línea sin romper el flujo."
+  },
+  {
+    "unit": "L1: Entorno Java",
+    "type": "Selección Múltiple",
+    "text": "¿Qué es un Workspace en el entorno de desarrollo Eclipse IDE?",
+    "code": null,
+    "isMultiple": false,
+    "options": [
+      "El compilador interno de la máquina virtual",
+      "La ubicación en el sistema de archivos donde se almacenan los proyectos",
+      "Un archivo ejecutable de extensión .jar",
+      "La carpeta temporal donde se guardan los archivos .class"
+    ],
+    "correct": [
+      1
+    ],
+    "explanation": "En Eclipse, el Workspace es la carpeta o ubicación del sistema de archivos seleccionada para almacenar los proyectos de desarrollo."
+  },
+  {
+    "id": 11,
+    "unit": "Unidad 2: El Lenguaje HTML5",
+    "type": "Verdadero / Falso",
+    "question": "La etiqueta <b> le otorga relevancia semántica e importancia informativa al texto frente a motores de búsqueda (SEO) y lectores de pantalla.",
+    "code": null,
+    "options": [
+      "Verdadero",
+      "Falso"
+    ],
+    "correct": 1,
+    "explanation": "Falso. La etiqueta `<b>` solo aplica un resaltado visual en negrita sin peso semántico. Para otorgar importancia informativa o énfasis semántico se debe utilizar la etiqueta `<strong>`."
+  },
+  {
+    "unit": "L2: Algoritmos",
+    "type": "Selección Múltiple",
+    "text": "En el paso de parámetros a un subprograma, ¿qué sucede cuando se utiliza el 'Paso por Valor'?",
+    "code": null,
+    "isMultiple": false,
+    "options": [
+      "Se pasa una referencia directa a la memoria original",
+      "Se crea una copia del parámetro real, por lo que las modificaciones internas no afectan al valor original",
+      "Permite modificar la variable global automáticamente",
+      "Solo se utiliza para arreglos de dos dimensiones"
+    ],
+    "correct": [
+      1
+    ],
+    "explanation": "En el paso por valor se pasa una copia del dato. Los cambios realizados dentro del subprograma no se reflejan en el programa llamador."
+  },
+  {
+    "id": 41,
+    "unit": "Unidad 5: JavaScript ES6",
+    "type": "Análisis de Código (Funciones Nativas)",
+    "question": "¿Qué valor numérico retorna la función nativa parseInt(\"30.85px\") al ser ejecutada?",
+    "code": "let resultado = parseInt(\"30.85px\");\nconsole.log(resultado);",
+    "options": [
+      "30.85",
+      "30",
+      "31",
+      "NaN"
+    ],
+    "correct": 1,
+    "explanation": "`parseInt()` analiza el texto desde el inicio y extrae la parte entera del número (30), ignorando los decimales y el texto subsiguiente ('px')."
+  },
+  {
+    "unit": "L1: Entorno Java",
+    "type": "Verdadero / Falso",
+    "text": "¿El entorno JRE (Java Runtime Environment) incluye el compilador javac para transformar código fuente .java en bytecode .class?",
+    "code": null,
+    "isMultiple": false,
+    "options": [
+      "Verdadero",
+      "Falso"
+    ],
+    "correct": [
+      1
+    ],
+    "explanation": "Falso. El compilador javac se incluye exclusivamente en el JDK (Java Development Kit). El JRE proporciona la JVM y librerías necesarias solo para ejecutar el bytecode ya compilado."
+  },
+  {
+    "unit": "L1: Entorno Java",
+    "type": "Selección Múltiple",
+    "text": "¿Cuál es la firma exacta del método que actúa como punto de entrada para ejecutar una aplicación Java?",
+    "code": null,
+    "isMultiple": false,
+    "options": [
+      "public void main(String[] args)",
+      "public static void main(String[] args)",
+      "private static void Main(String args)",
+      "public static int main(String[] args)"
+    ],
+    "correct": [
+      1
+    ],
+    "explanation": "El punto de entrada ejecutable en Java es 'public static void main(String[] args)'."
+  },
+  {
+    "id": 5,
+    "unit": "Unidad 1: Conceptos Web & W3C",
+    "type": "Verdadero / Falso",
+    "question": "Procesadores de texto como Microsoft Word o OpenOffice son considerados editores de texto plano idóneos para codificar archivos fuente web (.html, .css, .js).",
+    "code": null,
+    "options": [
+      "Verdadero",
+      "Falso"
+    ],
+    "correct": 1,
+    "explanation": "Falso. Microsoft Word u OpenOffice no son editores de texto plano; añaden formatos propietarios de documento. Para programar se utilizan editores de código fuente como Visual Studio Code, Sublime Text o Brackets."
+  },
+  {
+    "id": 8,
+    "unit": "Unidad 1: Conceptos Web & W3C",
+    "type": "Verdadero / Falso",
+    "question": "Las aplicaciones web dinámicas generan respuestas y contenido interactivo procesado en tiempo real según las peticiones del usuario, a diferencia de los sitios web estáticos tradicionales.",
+    "code": null,
+    "options": [
+      "Verdadero",
+      "Falso"
+    ],
+    "correct": 0,
+    "explanation": "Verdadero. Las webs dinámicas interactúan con el servidor, bases de datos y scripts cliente para personalizar el contenido devuelto, mientras que las estáticas muestran los mismos archivos fijos a todos los usuarios."
+  },
+  {
+    "unit": "L6: Herencia y Polimorfismo",
+    "type": "Verdadero / Falso",
+    "text": "Una clase en Java puede heredar directamente de múltiples superclases mediante la cláusula 'extends'.",
+    "code": null,
+    "isMultiple": false,
+    "options": [
+      "Verdadero",
+      "Falso"
+    ],
+    "correct": [
+      1
+    ],
+    "explanation": "Falso. Java no admite herencia múltiple de clases. Solo se permite heredar de una única superclase con extends."
+  },
+  {
+    "id": 4,
+    "unit": "Unidad 1: Conceptos Web & W3C",
+    "type": "Selección Múltiple",
+    "question": "¿Cómo se define el rol de un desarrollador Fullstack dentro de un equipo de desarrollo web?",
+    "code": null,
+    "options": [
+      "Se especializa exclusivamente en el diseño gráfico y maquetación de maquetas en Sketch o Figma.",
+      "Domina tanto las tecnologías del lado del cliente (Front-End) como las del lado del servidor (Back-End) con una visión end-to-end.",
+      "Es el encargado de administrar la infraestructura física de redes TCP/IP de la empresa.",
+      "Se encarga únicamente de realizar auditorías de accesibilidad WCAG."
+    ],
+    "correct": 1,
+    "explanation": "Un desarrollador Fullstack posee conocimientos y competencias integrales tanto en Front-End como en Back-End, lo que le permite conectar todas las capas de una aplicación web."
+  },
+  {
+    "unit": "L3: Colecciones",
+    "type": "Verdadero / Falso",
+    "text": "Las colecciones como ArrayList aceptan directamente tipos de datos primitivos como int o double.",
+    "code": null,
+    "isMultiple": false,
+    "options": [
+      "Verdadero",
+      "Falso"
+    ],
+    "correct": [
+      1
+    ],
+    "explanation": "Falso. Las colecciones no aceptan primitivos directamente; se deben usar sus clases envolventes (Wrapper Classes) como Integer o Double."
+  },
+  {
+    "unit": "L1: Entorno Java",
+    "type": "Selección Múltiple (Varias respuestas)",
+    "text": "¿Cuáles de los siguientes componentes forman parte del JDK (Java Development Kit)? (Selecciona todas las opciones correctas)",
+    "code": null,
+    "isMultiple": true,
+    "options": [
+      "El compilador de Java (javac)",
+      "El entorno de ejecución JRE y la máquina virtual JVM",
+      "Utilidades y bibliotecas para el desarrollo de software",
+      "Servidor de base de datos MySQL en memoria"
+    ],
+    "correct": [
+      0,
+      1,
+      2
+    ],
+    "explanation": "El JDK contiene el compilador javac, herramientas/utilidades de desarrollo y el JRE (que alberga la JVM)."
+  },
+  {
+    "id": 1,
+    "unit": "Unidad 1: Conceptos Web & W3C",
+    "type": "Verdadero / Falso",
+    "question": "El Consorcio World Wide Web (W3C) es el organismo encargado de procesar la lógica de negocio y gestionar la base de datos en los servidores web.",
+    "code": null,
+    "options": [
+      "Verdadero",
+      "Falso"
+    ],
+    "correct": 1,
+    "explanation": "Falso. La misión principal del W3C es desarrollar y mantener estándares web abiertos (como HTML, CSS, WCAG y XML) para asegurar el crecimiento y la accesibilidad de la web. La lógica de negocio y base de datos son responsabilidad del Back-End."
+  },
+  {
+    "unit": "L7: Dobles de Prueba",
+    "type": "Selección Múltiple",
+    "text": "De acuerdo a la clasificación de dobles de prueba, ¿cuál es la diferencia conceptual entre un Stub y un Mock?",
+    "code": null,
+    "isMultiple": false,
+    "options": [
+      "Un Stub valida comportamiento; un Mock ejecuta la base de datos en memoria",
+      "Un Stub tan solo devuelve respuestas estáticas preprogramadas; un Mock valida el comportamiento y expectativas detalladas de las llamadas recibidas",
+      "Son términos idénticos en JUnit 5",
+      "Un Mock es un doble de pruebas sin potencia"
+    ],
+    "correct": [
+      1
+    ],
+    "explanation": "El Stub es un doble simple con respuestas preprogramadas. El Mock verifica comportamientos y expectativas detalladas de llamadas."
+  },
+  {
+    "id": 27,
+    "unit": "Unidad 3: CSS Estilos Tipográficos",
+    "type": "Selección Múltiple",
+    "question": "¿Qué propiedad de CSS se utiliza para agregar un efecto visual de sombra alrededor de la caja o contenedor de un elemento?",
+    "code": null,
+    "options": [
+      "text-shadow",
+      "box-shadow",
+      "border-shadow",
+      "shadow-effect"
+    ],
+    "correct": 1,
+    "explanation": "`box-shadow` añade sombras alrededor del marco de un elemento. Sus valores configuran el desplazamiento horizontal, vertical, desenfoque, extensión y color."
+  },
+  {
+    "id": 2,
+    "unit": "Unidad 1: Conceptos Web & W3C",
+    "type": "Selección Múltiple",
+    "question": "¿Cuál es la diferencia fundamental entre Front-End y Back-End respecto a su lugar de ejecución?",
+    "code": null,
+    "options": [
+      "Front-End se ejecuta en el servidor web y Back-End en el navegador del cliente.",
+      "Front-End se ejecuta en el cliente/navegador web y Back-End se ejecuta en el servidor.",
+      "Ambos se ejecutan simultáneamente en la base de datos relacional.",
+      "Front-End solo se ejecuta en dispositivos móviles y Back-End en computadoras de escritorio."
+    ],
+    "correct": 1,
+    "explanation": "El desarrollo Front-End se ejecuta en el navegador web del cliente (renderizando interfaz, estilos e interacción), mientras que el Back-End se ejecuta en el servidor gestionando datos, seguridad y lógica de negocio."
+  },
+  {
+    "id": 21,
+    "unit": "Unidad 3: CSS Flexbox",
+    "type": "Análisis de Código (Flexbox)",
+    "question": "En un contenedor con 'display: flex' y 'flex-direction: row', ¿qué propiedad de CSS se utiliza para alinear los elementos secundarios a lo largo del EJE TRANSVERSAL (Cross Axis)?",
+    "code": ".contenedor {\n  display: flex;\n  flex-direction: row;\n  ??? : center; /* Alineación vertical */\n}",
+    "options": [
+      "justify-content",
+      "align-items",
+      "flex-wrap",
+      "align-content"
+    ],
+    "correct": 1,
+    "explanation": "'align-items' alinea los elementos a lo largo del eje transversal (Cross Axis). 'justify-content' se encarga de la distribución en el eje principal (Main Axis)."
+  },
+  {
+    "unit": "L2: Algoritmos",
+    "type": "Selección Múltiple",
+    "text": "En simbología estándar de Diagramas de Flujo, ¿qué figura geométrica se utiliza para representar una toma de Decisión condicional?",
+    "code": null,
+    "isMultiple": false,
+    "options": [
+      "Rectángulo",
+      "Rombo",
+      "Óvalo / Elipse",
+      "Paralelogramo"
+    ],
+    "correct": [
+      1
+    ],
+    "explanation": "El Rombo representa una decisión con salidas Verdadero/Falso (Sí/No)."
+  },
+  {
+    "unit": "L5: POO y Encapsulamiento",
+    "type": "Selección Múltiple",
+    "text": "¿Qué representa un Objeto respecto a una Clase en el paradigma orientado a objetos?",
+    "code": null,
+    "isMultiple": false,
+    "options": [
+      "La clase es una instancia y el objeto es la plantilla",
+      "El objeto es una instancia específica de una clase con su propio estado y comportamiento",
+      "Son sinónimos exactos en Java",
+      "Un objeto es un archivo .class compilado"
+    ],
+    "correct": [
+      1
+    ],
+    "explanation": "La clase es la plantilla/prototipo y el objeto es una instancia específica con estado (atributos) y comportamiento (métodos)."
+  },
+  {
+    "id": 39,
+    "unit": "Unidad 5: JavaScript DOM & Eventos",
+    "type": "Análisis de Código (DOM)",
+    "question": "Dado el elemento HTML '<h1 id=\"titulo\">Texto Antiguo</h1>', ¿qué instrucción en JavaScript cambia de forma segura su contenido textual visible?",
+    "code": "const titulo = document.getElementById('titulo');\n// ¿Cómo modificar el texto?",
+    "options": [
+      "titulo.value = 'Texto Nuevo';",
+      "titulo.innerText = 'Texto Nuevo';",
+      "titulo.setPlainStyle('Texto Nuevo');",
+      "titulo.content = 'Texto Nuevo';"
+    ],
+    "correct": 1,
+    "explanation": "La propiedad `.innerText` (o `.textContent`) accede y modifica el contenido textual visible de un nodo del DOM. `.value` se reserva para campos de formulario `<input>`."
+  },
+  {
+    "id": 23,
+    "unit": "Unidad 3: CSS Media Queries",
+    "type": "Análisis de Código",
+    "question": "¿Qué Media Query de CSS se activará únicamente cuando el ancho de la pantalla sea de 768 píxeles o menor?",
+    "code": null,
+    "options": [
+      "@media (min-width: 768px) { ... }",
+      "@media (max-width: 768px) { ... }",
+      "@media (device-width: 768px) { ... }",
+      "@media screen and (width: 768px) { ... }"
+    ],
+    "correct": 1,
+    "explanation": "`@media (max-width: 768px)` aplica las reglas contenidas siempre que la ventana del navegador sea menor o igual a 768px de ancho."
+  },
+  {
+    "unit": "L5: POO y Encapsulamiento",
+    "type": "Análisis de Salida de Código",
+    "text": "¿Qué sucede al intentar compilar e instanciar el objeto 'c' con el constructor por defecto en la clase Coche?",
+    "code": "class Coche {\n    String marca;\n    public Coche(String marca) {\n        this.marca = marca;\n    }\n}\npublic class Main {\n    public static void main(String[] args) {\n        Coche c = new Coche();\n    }\n}",
+    "isMultiple": false,
+    "options": [
+      "Compila e inicializa marca en null",
+      "Error de compilación porque el constructor por defecto sin parámetros se pierde al definir un constructor parametrizado",
+      "Error de ejecución NullPointerException",
+      "Imprime una cadena vacía"
+    ],
+    "correct": [
+      1
+    ],
+    "explanation": "Al declarar un constructor explícito parametrizado, Java retira el constructor por defecto sin parámetros a menos que se defina explícitamente."
+  },
+  {
+    "unit": "L6: Herencia y Polimorfismo",
+    "type": "Análisis de Salida de Código",
+    "text": "¿Cuál es el resultado de ejecutar la instanciación de Hijo en el siguiente código con llamada a super()?",
+    "code": "class Padre {\n    public Padre() {\n        System.out.print(\"Padre \");\n    }\n}\nclass Hijo extends Padre {\n    public Hijo() {\n        super();\n        System.out.print(\"Hijo\");\n    }\n}\npublic class Main {\n    public static void main(String[] args) {\n        Hijo h = new Hijo();\n    }\n}",
+    "isMultiple": false,
+    "options": [
+      "Hijo",
+      "Padre Hijo",
+      "Hijo Padre",
+      "Error de compilación"
+    ],
+    "correct": [
+      1
+    ],
+    "explanation": "super() invoca primero el constructor de Padre que imprime 'Padre ', y luego continúa Hijo imprimiendo 'Hijo'. Salida: 'Padre Hijo'."
+  },
+  {
+    "id": 12,
+    "unit": "Unidad 2: El Lenguaje HTML5",
+    "type": "Análisis de Código",
+    "question": "¿Qué atributo y valor deben agregarse a una etiqueta de enlace <a> para que la página de destino se abra en una nueva pestaña del navegador?",
+    "code": "<a href=\"https://www.google.com\" ???>Ir a Google</a>",
+    "options": [
+      "target=\"_self\"",
+      "target=\"_blank\"",
+      "rel=\"newtab\"",
+      "window=\"open\""
+    ],
+    "correct": 1,
+    "explanation": "El atributo `target=\"_blank\"` le indica al navegador que abra el enlace en una nueva pestaña o ventana independiente. El valor por defecto es `_self` (abre en la misma pestaña)."
+  },
+  {
+    "unit": "L7: Pruebas Unitarias",
+    "type": "Selección Múltiple",
+    "text": "¿Cuál es un requisito técnico obligatorio para el método anotado con @BeforeAll en JUnit 5?",
+    "code": null,
+    "isMultiple": false,
+    "options": [
+      "Debe ser de visibilidad privada",
+      "El método debe ser estrictamente estático (static)",
+      "Debe retornar un entero con la cantidad de tests",
+      "Debe llamarse obligatoriamente 'setup()'"
+    ],
+    "correct": [
+      1
+    ],
+    "explanation": "@BeforeAll se ejecuta 1 sola vez antes de la suite completa y exige que el método sea estático (`static`)."
+  },
+  {
+    "id": 15,
+    "unit": "Unidad 2: El Lenguaje HTML5",
+    "type": "Selección Múltiple",
+    "question": "En un formulario HTML (<form>), ¿cuál es la diferencia fundamental entre los métodos de envío method=\"GET\" y method=\"POST\"?",
+    "code": null,
+    "options": [
+      "GET envía los datos de forma invisible en los encabezados; POST adjunta los datos a la URL en la barra de direcciones.",
+      "GET adjunta los datos a la URL en la barra de direcciones; POST envía los datos de forma invisible junto con el cuerpo de la petición HTTP.",
+      "GET solo se utiliza para subir archivos pesados; POST no acepta formularios de texto.",
+      "No existe diferencia; ambos métodos se procesan de la misma forma en el servidor."
+    ],
+    "correct": 1,
+    "explanation": "El método GET envía los pares clave=valor visibles en la URL (barra de direcciones). El método POST envía la información de forma no visible en el cuerpo de la solicitud HTTP (ideal para contraseñas y datos sensibles)."
+  }
+];
+
+    const quizData = rawQuizData.map(function(question, index) {
+      var isMultiple = question.isMultiple === true || (Array.isArray(question.correct) && question.correct.length > 1);
+      var normalizedCorrect = Array.isArray(question.correct)
+        ? question.correct.map(function(value) { return Number(value); })
+        : [Number(question.correct)];
+
+      return {
+        id: question.id !== undefined ? question.id : index + 1,
+        unit: question.unit || 'Sin unidad',
+        type: question.type || 'General',
+        question: question.question || question.text || 'Pregunta sin enunciado',
+        code: question.code || null,
+        options: Array.isArray(question.options) ? question.options : [],
+        correct: isMultiple ? normalizedCorrect : normalizedCorrect[0],
+        explanation: question.explanation || '',
+        isMultiple: isMultiple
+      };
+    });
+
+    var currentQuestionIndex = 0;
+    var userAnswers = new Array(quizData.length).fill(null);
+    var timerInterval = null;
+    var secondsElapsed = 0;
+
+    document.addEventListener('DOMContentLoaded', function() {
+      document.getElementById('info-total-q').innerText = quizData.length;
+      loadHistoryFromStorage();
+    });
+
+    function startQuiz() {
+      currentQuestionIndex = 0;
+      userAnswers = new Array(quizData.length).fill(null);
+      secondsElapsed = 0;
+      document.getElementById('screen-start').classList.add('d-none');
+      document.getElementById('screen-quiz').classList.remove('d-none');
+      document.getElementById('screen-results').classList.add('d-none');
+      startTimer();
+      renderQuestion();
+    }
+
+    function startTimer() {
+      clearInterval(timerInterval);
+      timerInterval = setInterval(function() {
+        secondsElapsed++;
+        var mins = String(Math.floor(secondsElapsed / 60)).padStart(2, '0');
+        var secs = String(secondsElapsed % 60).padStart(2, '0');
+        document.getElementById('quiz-timer').innerText = 'Tiempo: ' + mins + ':' + secs;
+      }, 1000);
+    }
+
+    function renderQuestion() {
+      var q = quizData[currentQuestionIndex];
+      var total = quizData.length;
+      document.getElementById('quiz-progress-text').innerText = 'Pregunta ' + (currentQuestionIndex + 1) + ' de ' + total;
+      var percent = ((currentQuestionIndex + 1) / total) * 100;
+      document.getElementById('quiz-progress-bar').style.width = percent + '%';
+      document.getElementById('q-unit').innerText = q.unit;
+      document.getElementById('q-type').innerText = q.type;
+      document.getElementById('q-text').innerText = q.question;
+
+      var codeContainer = document.getElementById('q-code-container');
+      var codeValue = document.getElementById('q-code');
+      if (q.code) {
+        codeValue.innerText = q.code;
+        codeContainer.classList.remove('d-none');
+      } else {
+        codeContainer.classList.add('d-none');
+      }
+
+      var optionsContainer = document.getElementById('q-options');
+      optionsContainer.innerHTML = '';
+
+      q.options.forEach(function(opt, idx) {
+        if (q.isMultiple) {
+          var currentSelection = Array.isArray(userAnswers[currentQuestionIndex]) ? userAnswers[currentQuestionIndex] : [];
+          var card = document.createElement('div');
+          var checked = currentSelection.includes(idx);
+          card.className = 'option-card ' + (checked ? 'selected' : '');
+          var inputId = 'opt-' + currentQuestionIndex + '-' + idx;
+          card.innerHTML = '<input type="checkbox" id="' + inputId + '" ' + (checked ? 'checked' : '') + '><label for="' + inputId + '" style="cursor:pointer;" class="mb-0 w-100">' + opt + '</label>';
+
+          card.addEventListener('click', function(event) {
+            if (event.target.tagName !== 'INPUT') {
+              var input = card.querySelector('input');
+              input.checked = !input.checked;
+            }
+            toggleOptionSelection(idx, true);
+          });
+
+          optionsContainer.appendChild(card);
+        } else {
+          var btn = document.createElement('button');
+          var selected = userAnswers[currentQuestionIndex] === idx;
+          btn.className = 'btn-option ' + (selected ? 'selected' : '');
+          btn.innerText = opt;
+          btn.onclick = function() { selectOption(idx); };
+          optionsContainer.appendChild(btn);
+        }
+      });
+
+      document.getElementById('btn-prev').disabled = currentQuestionIndex === 0;
+      var btnNext = document.getElementById('btn-next');
+      if (currentQuestionIndex === quizData.length - 1) {
+        btnNext.innerText = 'Finalizar y Ver Informe';
+      } else {
+        btnNext.innerText = 'Siguiente';
+      }
+    }
+
+    function selectOption(index) {
+      userAnswers[currentQuestionIndex] = index;
+      renderQuestion();
+    }
+
+    function toggleOptionSelection(index, isMultiple) {
+      var selection = Array.isArray(userAnswers[currentQuestionIndex]) ? userAnswers[currentQuestionIndex].slice() : [];
+      var currentIdx = selection.indexOf(index);
+
+      if (isMultiple) {
+        if (currentIdx >= 0) {
+          selection.splice(currentIdx, 1);
+        } else {
+          selection.push(index);
+        }
+        userAnswers[currentQuestionIndex] = selection;
+      } else {
+        userAnswers[currentQuestionIndex] = index;
+      }
+      renderQuestion();
+    }
+
+    function prevQuestion() {
+      if (currentQuestionIndex > 0) {
+        currentQuestionIndex--;
+        renderQuestion();
+      }
+    }
+
+    function nextQuestion() {
+      var currentValue = userAnswers[currentQuestionIndex];
+      var answered = quizData[currentQuestionIndex].isMultiple
+        ? Array.isArray(currentValue) && currentValue.length > 0
+        : currentValue !== null && currentValue !== undefined;
+
+      if (!answered) {
+        alert('Por favor selecciona una respuesta antes de continuar.');
+        return;
+      }
+
+      if (currentQuestionIndex < quizData.length - 1) {
+        currentQuestionIndex++;
+        renderQuestion();
+      } else {
+        finishQuiz();
+      }
+    }
+
+    function finishQuiz() {
+      clearInterval(timerInterval);
+      document.getElementById('screen-quiz').classList.add('d-none');
+      document.getElementById('screen-results').classList.remove('d-none');
+
+      var correctCount = 0;
+      quizData.forEach(function(q, idx) {
+        var selected = userAnswers[idx];
+        var correctSet = Array.isArray(q.correct) ? q.correct.slice().sort(function(a, b) { return a - b; }) : [Number(q.correct)];
+        var isCorrect = q.isMultiple
+          ? Array.isArray(selected) && selected.length === correctSet.length && selected.slice().sort(function(a, b) { return a - b; }).every(function(value, pos) { return value === correctSet[pos]; })
+          : Number(selected) === Number(q.correct);
+
+        if (isCorrect) correctCount++;
+      });
+
+      var totalCount = quizData.length;
+      var incorrectCount = totalCount - correctCount;
+      var scorePercent = Math.round((correctCount / totalCount) * 100);
+      var isPassed = scorePercent >= 60;
+
+      document.getElementById('res-score-percent').innerText = scorePercent + '%';
+      document.getElementById('res-correct-count').innerText = correctCount;
+      document.getElementById('res-correct-percent').innerText = Math.round((correctCount / totalCount) * 100) + '%';
+      document.getElementById('res-incorrect-count').innerText = incorrectCount;
+      document.getElementById('res-incorrect-percent').innerText = Math.round((incorrectCount / totalCount) * 100) + '%';
+
+      var mins = String(Math.floor(secondsElapsed / 60)).padStart(2, '0');
+      var secs = String(secondsElapsed % 60).padStart(2, '0');
+      document.getElementById('res-time-elapsed').innerText = mins + ':' + secs;
+
+      var badgeStatus = document.getElementById('result-badge-status');
+      badgeStatus.innerHTML = isPassed
+        ? '<span class="badge bg-success fs-6 px-3 py-2">✓ APROBADO (Supera el 60% mínimo requerido)</span>'
+        : '<span class="badge bg-danger fs-6 px-3 py-2">✖ REPROBADO (Requiere reforzar contenidos)</span>';
+
+      saveAttemptToStorage({
+        date: new Date().toLocaleString('es-CL'),
+        score: correctCount,
+        total: totalCount,
+        percent: scorePercent,
+        passed: isPassed
+      });
+
+      renderBreakdown();
+    }
+
+    function renderBreakdown() {
+      var breakdownContainer = document.getElementById('results-breakdown');
+      breakdownContainer.innerHTML = '';
+
+      quizData.forEach(function(q, idx) {
+        var selected = userAnswers[idx];
+        var correctSet = Array.isArray(q.correct) ? q.correct.slice().sort(function(a, b) { return a - b; }) : [Number(q.correct)];
+        var isCorrect = q.isMultiple
+          ? Array.isArray(selected) && selected.length === correctSet.length && selected.slice().sort(function(a, b) { return a - b; }).every(function(value, pos) { return value === correctSet[pos]; })
+          : Number(selected) === Number(q.correct);
+
+        var card = document.createElement('div');
+        card.className = 'card p-3 mb-3 ' + (isCorrect ? 'feedback-correct' : 'feedback-incorrect');
+
+        var statusText = isCorrect
+          ? '<span class="text-success fw-bold">Correcta</span>'
+          : '<span class="text-danger fw-bold">Incorrecta</span>';
+
+        var answerText = q.isMultiple
+          ? (Array.isArray(selected) && selected.length ? selected.map(function(value) { return q.options[value]; }).join(', ') : 'Sin responder')
+          : (selected !== null && selected !== undefined ? q.options[selected] : 'Sin responder');
+
+        var correctText = q.isMultiple
+          ? q.correct.map(function(value) { return q.options[value]; }).join(', ')
+          : q.options[q.correct];
+
+        card.innerHTML = '<div class="d-flex justify-content-between align-items-center mb-1"><span class="small fw-bold text-muted">Pregunta ' + (idx + 1) + ' de ' + quizData.length + ' · ' + q.unit + '</span>' + statusText + '</div><p class="fw-bold mb-2">' + q.question + '</p>' + (q.code ? '<pre class="code-block py-2 mb-2"><code>' + q.code + '</code></pre>' : '') + '<div class="small mb-1"><strong>Tu respuesta:</strong> ' + answerText + '</div><div class="small mb-2 ' + (isCorrect ? 'text-success' : 'text-danger') + '"><strong>Respuesta correcta:</strong> ' + correctText + '</div><div class="p-2 bg-white rounded border small text-muted"><strong>Explicación Técnica:</strong> ' + q.explanation + '</div>';
+
+        breakdownContainer.appendChild(card);
+      });
+    }
+
+    function restartQuiz() {
+      document.getElementById('screen-results').classList.add('d-none');
+      document.getElementById('screen-start').classList.remove('d-none');
+      loadHistoryFromStorage();
+    }
+
+    function saveAttemptToStorage(attempt) {
+      var history = JSON.parse(localStorage.getItem('alkemy_mixed_history_100') || '[]');
+      history.unshift(attempt);
+      localStorage.setItem('alkemy_mixed_history_100', JSON.stringify(history));
+    }
+
+    function loadHistoryFromStorage() {
+      var history = JSON.parse(localStorage.getItem('alkemy_mixed_history_100') || '[]');
+      var container = document.getElementById('history-container');
+      var tbody = document.getElementById('history-table-body');
+
+      if (history.length === 0) {
+        container.classList.add('d-none');
+        return;
+      }
+
+      container.classList.remove('d-none');
+      tbody.innerHTML = '';
+
+      history.forEach(function(item) {
+        var tr = document.createElement('tr');
+        tr.innerHTML = '<td>' + item.date + '</td><td>' + item.score + ' / ' + item.total + '</td><td class="fw-bold">' + item.percent + '%</td><td>' + (item.passed ? '<span class="badge bg-success">Aprobado</span>' : '<span class="badge bg-danger">Reprobado</span>') + '</td>';
+        tbody.appendChild(tr);
+      });
+    }
+
+    function clearHistory() {
+      if (confirm('¿Seguro que deseas borrar el historial de intentos guardados?')) {
+        localStorage.removeItem('alkemy_mixed_history_100');
+        loadHistoryFromStorage();
+      }
+    }
+  </script>
+</body>
+</html>
